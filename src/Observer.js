@@ -1,6 +1,7 @@
 import { def } from './util'
 import defineReactive from './defineReactive'
 import { arrayPrototypeMethods } from './array'
+import observe from './observe'
 /**
  * Observer是一个类，这样用大写字母开头
  * 功能是将一个正常的object对象的每个子属性转换成响应式的（也就是可以被监测的）object
@@ -13,7 +14,11 @@ export default class Observer {
     def(value, '__ob__', this, false) // 类的this是值这个类的实例
 
     if(Array.isArray(value)) {
+      // 如果是数组，那么就将这个数组的原型指向以数组原型创建的的对象，其实就是多个中间人了
       Object.setPrototypeOf(value, arrayPrototypeMethods)
+
+      // 让这个数组变成可观察
+      this.observeArray(value)
     } else {
       this.work(value)
     }
@@ -22,6 +27,15 @@ export default class Observer {
   work(value) {
     for (let k in value) {
       defineReactive(value, k)
+    }
+  }
+
+  // 数组的特殊遍历
+  observeArray(arr) {
+    // 这样写因为有一些特殊情况，在遍历过程中数组长度可能发生变化
+    for (let i = 0, l = arr.length; i < l; i++) {
+      // 将这个数组的每一项都进行响应式处理，因为数组里面可能包含着对象或者数组
+      observe(arr[i])
     }
   }
 }

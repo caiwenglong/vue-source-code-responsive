@@ -15,7 +15,8 @@ const obj = {
 
 observe(obj)
 
-obj.i.push(4, 5)
+obj.i.splice(0, 2, [88, 99])
+
 console.log(obj)
 
 
