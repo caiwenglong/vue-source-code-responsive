@@ -2,6 +2,7 @@ import { def } from './util'
 import defineReactive from './defineReactive'
 import { arrayPrototypeMethods } from './array'
 import observe from './observe'
+import Dep from './Dep'
 /**
  * Observer是一个类，这样用大写字母开头
  * 功能是将一个正常的object对象的每个子属性转换成响应式的（也就是可以被监测的）object
@@ -10,7 +11,12 @@ import observe from './observe'
  */
 export default class Observer {
   constructor(value) { // 构造函数接收传递进来的值，每次new就会自动调用构造函数
+
+    // 每个Observer的实例身上都伴随这一个dep
+    this.dep = new Dep()
+
     // Observer会给传递进来的value添加__ob__属性，而且这个__ob__是不可枚举的
+    // 将Observer类的实例挂载在__ob__属性上,提供后续观测数据使用，以及避免被重复实例化
     def(value, '__ob__', this, false) // 类的this是值这个类的实例
 
     if(Array.isArray(value)) {

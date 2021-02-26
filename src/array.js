@@ -64,6 +64,9 @@ arrayMethodsNeedChange.forEach(methodName => {
       ob.observeArray(inserted)
     }
 
+    // 数组被改变了，要通知dep
+    ob.dep.notify()
+
     /**
      * 调用原来的方法
      * apply 作用是用来改变函数的上下文对象，也就是改变this的指向

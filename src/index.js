@@ -1,4 +1,5 @@
 import observe from './observe'
+import Watcher from './Watcher'
 import defineReactive from './defineReactive'
 // const container = document.getElementById("container")
 const obj = {
@@ -15,8 +16,10 @@ const obj = {
 
 observe(obj)
 
-obj.i.splice(0, 2, [88, 99])
-
+new Watcher(obj, 'a.b.c.d', (val) => {
+  console.log("!!!!!" + val)
+})
+obj.a.b.c.d = 100
 console.log(obj)
 
 
