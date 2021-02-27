@@ -17,10 +17,10 @@ export default class Observer {
 
     // Observer会给传递进来的value添加__ob__属性，而且这个__ob__是不可枚举的
     // 将Observer类的实例挂载在__ob__属性上,提供后续观测数据使用，以及避免被重复实例化
-    def(value, '__ob__', this, false) // 类的this是值这个类的实例
+    def(value, '__ob__', this, false) // 类的this是指这个类的实例
 
     if(Array.isArray(value)) {
-      // 如果是数组，那么就将这个数组的原型指向以数组原型创建的的对象，其实就是多个中间人了
+      // 如果是数组，那么就将这个数组的原型指向以数组原型创建的对象，其实就是多个中间人了
       Object.setPrototypeOf(value, arrayPrototypeMethods)
 
       // 让这个数组变成可观察
