@@ -15,7 +15,7 @@ export default class Watcher {
   }
 
   update() {
-
+    this.run()
   }
 
   run() {
